@@ -1,0 +1,72 @@
+{
+  "name": "simplish-api",
+  "license": "MIT",
+  "private": true,
+  "author": {
+    "name": "Ali Zahid",
+    "email": "ali.zahid@live.com",
+    "url": "https://alizahid.dev"
+  },
+  "scripts": {
+    "build": "tsc",
+    "db": "env-cmd prisma migrate save --experimental; env-cmd prisma migrate up --experimental; yarn generate",
+    "dev": "env-cmd ts-node-dev --files --ignore-watch node_modules --respawn --no-notify src/index.ts",
+    "generate": "prisma generate",
+    "lint": "eslint src --ext ts",
+    "migrate": "prisma migrate up --experimental",
+    "postinstall": "yarn generate",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^2.8.0",
+    "apollo-server": "^3.0.0-alpha.3",
+    "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
+    "class-validator": "^0.12.2",
+    "firebase-admin": "^9.2.0",
+    "geolib": "^3.3.1",
+    "graphql": "^15.3.0",
+    "graphql-type-json": "^0.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.0",
+    "reflect-metadata": "^0.1.13",
+    "shortid": "^2.2.15",
+    "type-graphql": "^1.0.0",
+    "typedi": "^0.8.0",
+    "unique-names-generator": "^4.3.1"
+  },
+  "devDependencies": {
+    "@firebase/app-types": "^0.6.1",
+    "@prisma/cli": "2.8.0",
+    "@types/bcrypt": "^3.0.0",
+    "@types/chance": "^1.1.0",
+    "@types/graphql-fields": "^1.3.3",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/lodash": "^4.14.161",
+    "@types/node": "^14.11.2",
+    "@types/shortid": "^0.0.29",
+    "@typescript-eslint/eslint-plugin": "^4.3.0",
+    "@typescript-eslint/parser": "^4.3.0",
+    "chance": "^1.1.7",
+    "env-cmd": "^10.1.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-simple-import-sort": "^5.0.3",
+    "eslint-plugin-sort-destructure-keys": "^1.3.5",
+    "eslint-plugin-sort-keys-fix": "^1.1.1",
+    "graphql-fields": "^2.0.3",
+    "husky": "^4.3.0",
+    "prettier": "^2.1.2",
+    "pretty-quick": "^3.0.2",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0-pre.63",
+    "typescript": "^4.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
