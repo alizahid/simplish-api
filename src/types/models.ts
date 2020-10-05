@@ -54,7 +54,7 @@ export class Item implements Omit<Prisma.Item, 'listId' | 'userId'> {
   @Field(() => Date, {
     nullable: true
   })
-  reminder!: Date | null
+  date!: Date | null
 
   @Field(() => [User], {
     nullable: true

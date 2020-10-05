@@ -28,5 +28,5 @@ export class ItemInput {
   @Field(() => String, {
     nullable: true
   })
-  reminder?: string
+  date?: string
 }

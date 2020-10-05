@@ -539,7 +539,7 @@
     {
       "tag": "CreateField",
       "model": "Item",
-      "field": "reminder",
+      "field": "date",
       "type": "DateTime",
       "arity": "Optional"
     },

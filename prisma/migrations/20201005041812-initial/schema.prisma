@@ -51,7 +51,7 @@ model Item {
 
   body        String
   description String?
-  reminder    DateTime?
+  date        DateTime?
   complete    Boolean   @default(false)
 
   createdAt DateTime @default(now())
