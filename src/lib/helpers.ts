@@ -8,6 +8,11 @@ export const sortLists = (
   lists: Models.List[]
 ): Models.List[] => sortBy(lists, ({ id }) => user.listOrder.indexOf(id))
 
+export const sortBoard = (
+  board: Prisma.Board,
+  lists: Models.List[]
+): Models.List[] => sortBy(lists, ({ id }) => board.listOrder.indexOf(id))
+
 type List = Prisma.List & Models.List
 
 export const sortItems = (list: List): List => ({

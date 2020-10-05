@@ -11,6 +11,16 @@ export class ItemService {
   @Inject()
   lists!: ListService
 
+  async fetch(listId: number): Promise<Item[]> {
+    const items = await db.item.findMany({
+      where: {
+        listId
+      }
+    })
+
+    return items
+  }
+
   async create(user: User, listId: number, data: ItemInput): Promise<Item> {
     const list = await db.list.findOne({
       where: {

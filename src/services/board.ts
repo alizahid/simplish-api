@@ -2,6 +2,7 @@ import { User } from '@prisma/client'
 import { Service } from 'typedi'
 
 import { db } from '..'
+import { sortBoard } from '../lib'
 import { Board } from '../types/models'
 
 @Service()
@@ -34,7 +35,12 @@ export class BoardService {
       throw new Error('Board not found')
     }
 
-    return board
+    const lists = sortBoard(board, board.lists)
+
+    return {
+      ...board,
+      lists
+    }
   }
 
   async create(user: User, name: string): Promise<Board> {
@@ -52,29 +58,20 @@ export class BoardService {
     return board
   }
 
+  async update(id: number, name: string): Promise<Board> {
+    const board = await db.board.update({
+      data: {
+        name
+      },
+      where: {
+        id
+      }
+    })
+
+    return board
+  }
+
   async delete(id: number): Promise<boolean> {
-    await db.item.deleteMany({
-      where: {
-        list: {
-          board: {
-            every: {
-              id
-            }
-          }
-        }
-      }
-    })
-
-    await db.list.deleteMany({
-      where: {
-        board: {
-          every: {
-            id
-          }
-        }
-      }
-    })
-
     await db.board.delete({
       where: {
         id

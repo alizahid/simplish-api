@@ -45,6 +45,15 @@ export class ListResolver {
   }
 
   @Authorized(Roles.LIST_MEMBER)
+  @Mutation(() => List)
+  async updateList(
+    @Arg('listId', () => Int) listId: number,
+    @Arg('name') name: string
+  ): Promise<List> {
+    return this.service.update(listId, name)
+  }
+
+  @Authorized(Roles.LIST_MEMBER)
   @Mutation(() => Boolean)
   async deleteList(
     @Ctx('user') user: User,

@@ -69,7 +69,26 @@ export class ListService {
     })
 
     if (boardId) {
-      // TODO: update board
+      const board = await db.board.findOne({
+        where: {
+          id: boardId
+        }
+      })
+
+      if (!board) {
+        throw new Error('Board not found')
+      }
+
+      await db.board.update({
+        data: {
+          listOrder: {
+            set: [...board.listOrder, list.id]
+          }
+        },
+        where: {
+          id: boardId
+        }
+      })
     } else {
       await db.user.update({
         data: {
@@ -86,13 +105,20 @@ export class ListService {
     return list
   }
 
-  async delete(user: User, id: number): Promise<boolean> {
-    await db.item.deleteMany({
+  async update(id: number, name: string): Promise<List> {
+    const list = await db.list.update({
+      data: {
+        name
+      },
       where: {
-        listId: id
+        id
       }
     })
 
+    return list
+  }
+
+  async delete(user: User, id: number): Promise<boolean> {
     await db.list.delete({
       where: {
         id

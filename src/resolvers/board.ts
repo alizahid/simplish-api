@@ -41,6 +41,15 @@ export class BoardResolver {
   }
 
   @Authorized(Roles.BOARD_MEMBER)
+  @Mutation(() => Board)
+  async updateBoard(
+    @Arg('boardId', () => Int) boardId: number,
+    @Arg('name') name: string
+  ): Promise<Board> {
+    return this.service.update(boardId, name)
+  }
+
+  @Authorized(Roles.BOARD_MEMBER)
   @Mutation(() => Boolean)
   async deleteBoard(
     @Arg('boardId', () => Int) boardId: number
