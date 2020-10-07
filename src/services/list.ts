@@ -138,4 +138,19 @@ export class ListService {
 
     return true
   }
+
+  async reorder(id: number, order: number[]): Promise<boolean> {
+    await db.list.update({
+      data: {
+        itemOrder: {
+          set: order
+        }
+      },
+      where: {
+        id
+      }
+    })
+
+    return true
+  }
 }

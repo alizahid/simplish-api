@@ -51,6 +51,21 @@ export class UserService {
     return true
   }
 
+  async reorder(user: User, order: number[]): Promise<boolean> {
+    await db.user.update({
+      data: {
+        listOrder: {
+          set: order
+        }
+      },
+      where: {
+        id: user.id
+      }
+    })
+
+    return true
+  }
+
   private generateName(): string {
     return uniqueNamesGenerator({
       dictionaries: [colors, animals]

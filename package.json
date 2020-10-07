@@ -15,7 +15,8 @@
     "lint": "eslint src --ext ts",
     "migrate": "prisma migrate up --experimental",
     "postinstall": "yarn generate",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "studio": "env-cmd prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^2.8.0",

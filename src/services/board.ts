@@ -80,4 +80,19 @@ export class BoardService {
 
     return true
   }
+
+  async reorder(id: number, order: number[]): Promise<boolean> {
+    await db.board.update({
+      data: {
+        listOrder: {
+          set: order
+        }
+      },
+      where: {
+        id
+      }
+    })
+
+    return true
+  }
 }

@@ -1,4 +1,12 @@
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Int,
+  Mutation,
+  Query,
+  Resolver
+} from 'type-graphql'
 import { Inject } from 'typedi'
 
 import { UserService } from '../services'
@@ -28,5 +36,14 @@ export class UserResolver {
     @Arg('token') token: string
   ): Promise<boolean> {
     return this.service.updatePushToken(user, token)
+  }
+
+  @Authorized()
+  @Mutation(() => Boolean)
+  async reorderLists(
+    @Ctx('user') user: User,
+    @Arg('order', () => [Int]) order: number[]
+  ): Promise<boolean> {
+    return this.service.reorder(user, order)
   }
 }

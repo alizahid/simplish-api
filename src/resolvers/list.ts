@@ -61,4 +61,13 @@ export class ListResolver {
   ): Promise<boolean> {
     return this.service.delete(user, listId)
   }
+
+  @Authorized(Roles.LIST_MEMBER)
+  @Mutation(() => Boolean)
+  async reorderList(
+    @Arg('listId', () => Int) listId: number,
+    @Arg('order', () => [Int]) order: number[]
+  ): Promise<boolean> {
+    return this.service.reorder(listId, order)
+  }
 }

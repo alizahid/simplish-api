@@ -56,4 +56,13 @@ export class BoardResolver {
   ): Promise<boolean> {
     return this.service.delete(boardId)
   }
+
+  @Authorized(Roles.BOARD_MEMBER)
+  @Mutation(() => Boolean)
+  async reorderBoard(
+    @Arg('boardId', () => Int) boardId: number,
+    @Arg('order', () => [Int]) order: number[]
+  ): Promise<boolean> {
+    return this.service.reorder(boardId, order)
+  }
 }

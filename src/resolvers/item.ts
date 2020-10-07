@@ -45,4 +45,24 @@ export class ItemResolver {
   ): Promise<boolean> {
     return this.service.toggle(itemId, complete)
   }
+
+  @Authorized()
+  @Mutation(() => Boolean)
+  async moveItem(
+    @Ctx('user') user: User,
+    @Arg('itemId', () => Int) itemId: number,
+    @Arg('fromListId', () => Int) fromListId: number,
+    @Arg('toListId', () => Int) toListId: number,
+    @Arg('fromOrder', () => [Int]) fromOrder: number[],
+    @Arg('toOrder', () => [Int]) toOrder: number[]
+  ): Promise<boolean> {
+    return this.service.move(
+      user,
+      itemId,
+      fromListId,
+      toListId,
+      fromOrder,
+      toOrder
+    )
+  }
 }

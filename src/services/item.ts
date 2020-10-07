@@ -125,4 +125,53 @@ export class ItemService {
 
     return complete
   }
+
+  async move(
+    user: User,
+    id: number,
+    fromListId: number,
+    toListId: number,
+    fromOrder: number[],
+    toOrder: number[]
+  ): Promise<boolean> {
+    const [fromList, toList] = await db.list.findMany({
+      include: {
+        users: true
+      },
+      where: {
+        id: {
+          in: [fromListId, toListId]
+        }
+      }
+    })
+
+    if (!fromList || !toList) {
+      throw new Error('List not found')
+    }
+
+    if (
+      !fromList.users.find(({ id }) => id === user.id) ||
+      !toList.users.find(({ id }) => id === user.id)
+    ) {
+      throw new Error('Not your list')
+    }
+
+    await db.item.update({
+      data: {
+        list: {
+          connect: {
+            id: toListId
+          }
+        }
+      },
+      where: {
+        id
+      }
+    })
+
+    await this.lists.reorder(fromListId, fromOrder)
+    await this.lists.reorder(toListId, toOrder)
+
+    return true
+  }
 }
