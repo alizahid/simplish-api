@@ -2,6 +2,7 @@ import { User } from '@prisma/client'
 import { Inject, Service } from 'typedi'
 
 import { db } from '..'
+import { sortItems } from '../lib'
 import { ItemInput } from '../types/graphql'
 import { Item } from '../types/models'
 import { ListService } from './list'
@@ -12,13 +13,20 @@ export class ItemService {
   lists!: ListService
 
   async fetch(listId: number): Promise<Item[]> {
-    const items = await db.item.findMany({
+    const list = await db.list.findOne({
+      include: {
+        items: true
+      },
       where: {
-        listId
+        id: listId
       }
     })
 
-    return items
+    if (!list) {
+      throw new Error('List not found')
+    }
+
+    return sortItems(list, list.items)
   }
 
   async create(user: User, listId: number, data: ItemInput): Promise<Item> {

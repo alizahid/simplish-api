@@ -2,12 +2,12 @@ import { User } from '@prisma/client'
 import { Service } from 'typedi'
 
 import { db } from '..'
-import { sortItems, sortLists } from '../lib'
+import { sortLists } from '../lib'
 import { List } from '../types/models'
 
 @Service()
 export class ListService {
-  async fetchAll(user: User): Promise<List[]> {
+  async fetch(user: User): Promise<List[]> {
     const lists = await db.list.findMany({
       where: {
         board: {
@@ -24,29 +24,6 @@ export class ListService {
     })
 
     return sortLists(user, lists)
-  }
-
-  async fetchOne(id: number): Promise<List> {
-    const list = await db.list.findOne({
-      include: {
-        items: {
-          include: {
-            assignees: true,
-            comments: true,
-            user: true
-          }
-        }
-      },
-      where: {
-        id
-      }
-    })
-
-    if (!list) {
-      throw new Error('List not found')
-    }
-
-    return sortItems(list)
   }
 
   async create(user: User, name: string, boardId?: number): Promise<List> {

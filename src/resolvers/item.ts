@@ -1,5 +1,13 @@
 import { User } from '@prisma/client'
-import { Arg, Authorized, Ctx, Int, Mutation, Resolver } from 'type-graphql'
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Int,
+  Mutation,
+  Query,
+  Resolver
+} from 'type-graphql'
 import { Inject } from 'typedi'
 
 import { ItemService } from '../services'
@@ -11,6 +19,15 @@ import { Item } from '../types/models'
 export class ItemResolver {
   @Inject()
   service!: ItemService
+
+  @Authorized(Roles.LIST_MEMBER)
+  @Query(() => [Item])
+  async items(
+    @Ctx('user') user: User,
+    @Arg('listId', () => Int) listId: number
+  ): Promise<Item[]> {
+    return this.service.fetch(listId)
+  }
 
   @Authorized(Roles.LIST_MEMBER)
   @Mutation(() => Item)
