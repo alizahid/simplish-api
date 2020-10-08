@@ -68,7 +68,8 @@ export class UserService {
 
   private generateName(): string {
     return uniqueNamesGenerator({
-      dictionaries: [colors, animals]
+      dictionaries: [colors, animals],
+      separator: '-'
     })
   }
 }
