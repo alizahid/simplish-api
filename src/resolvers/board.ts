@@ -22,13 +22,16 @@ export class BoardResolver {
   @Authorized()
   @Query(() => [Board])
   async boards(@Ctx('user') user: User): Promise<Board[]> {
-    return this.service.fetchAll(user)
+    return this.service.fetch(user)
   }
 
   @Authorized(Roles.BOARD_MEMBER)
   @Query(() => Board)
-  async board(@Arg('boardId', () => Int) boardId: number): Promise<Board> {
-    return this.service.fetchOne(boardId)
+  async board(
+    @Ctx('user') user: User,
+    @Arg('boardId', () => Int) boardId: number
+  ): Promise<Board> {
+    return this.service.fetchOne(user, boardId)
   }
 
   @Authorized()

@@ -21,8 +21,14 @@ export class ListResolver {
 
   @Authorized()
   @Query(() => [List])
-  async lists(@Ctx('user') user: User): Promise<List[]> {
-    return this.service.fetch(user)
+  async lists(
+    @Ctx('user') user: User,
+    @Arg('boardId', () => Int, {
+      nullable: true
+    })
+    boardId?: number
+  ): Promise<List[]> {
+    return this.service.fetch(user, boardId)
   }
 
   @Authorized()
