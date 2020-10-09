@@ -110,3 +110,24 @@ export class Board implements Omit<Prisma.Board, 'listOrder' | 'updatedAt'> {
   @Field()
   createdAt!: Date
 }
+
+@ObjectType()
+export class Snippet implements Omit<Prisma.Snippet, 'updatedAt'> {
+  @Field(() => Int)
+  id!: number
+
+  @Field()
+  name!: string
+
+  @Field()
+  language!: string
+
+  @Field()
+  content!: string
+
+  @Field(() => [String])
+  tags!: string[]
+
+  @Field()
+  createdAt!: Date
+}

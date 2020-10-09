@@ -30,3 +30,18 @@ export class ItemInput {
   })
   date?: string
 }
+
+@InputType()
+export class SnippetInput {
+  @Field()
+  name!: string
+
+  @Field()
+  language!: string
+
+  @Field()
+  content!: string
+
+  @Field(() => [String])
+  tags!: string[]
+}

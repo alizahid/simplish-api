@@ -10,7 +10,10 @@ import { db } from '..'
 import { AuthToken, Context, Roles } from '../types'
 
 export const authChecker: AuthChecker<Context> = async (
-  { args: { boardId, commentId, itemId, listId }, context: { user } },
+  {
+    args: { boardId, commentId, itemId, listId, snippetId },
+    context: { user }
+  },
   roles
 ): Promise<boolean> => {
   if (roles.length > 0) {
@@ -52,6 +55,19 @@ export const authChecker: AuthChecker<Context> = async (
       })
 
       return comment?.userId === user.id
+    }
+
+    if (roles.includes(Roles.SNIPPET_MEMBER)) {
+      const snippet = await db.snippet.findOne({
+        include: {
+          users: true
+        },
+        where: {
+          id: snippetId
+        }
+      })
+
+      return !!snippet?.users.find(({ id }) => id === user.id)
     }
 
     if (roles.includes(Roles.ITEM_MEMBER)) {
